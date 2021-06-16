@@ -25,7 +25,8 @@ termine del tempo ha acquisito più punti è il vincitore.
 - [Esempio vecchia traccia #3](https://virtuale.unibo.it/pluginfile.php/827640/mod_folder/content/0/Soluzione%20Traccia%203.zip?forcedownload=1)
 
 
-Requirements:
+## Requirements:
+
 - multiplayer
 - game-master
 - ruolo
@@ -52,10 +53,10 @@ Requirements:
 
 ## User story
 
-**1]** Con il server attivo, lancio il client sulla mia macchina e si apre una finestra con un'interfaccia di login. Inserisco un nome utente ed entro nella lobby, dove trovo una lista dei giocatori connessi aggiornata in tempo reale e due pulsanti, uno per scollegarmi e uno per iniziare il round. Premo il pulsante per iniziare il round e la finestra cambia, mostrando un timer che cala ogni secondo (tempo del round) e tre opzioni. {1} Scelgo una delle tre e mi disconnette dal gioco. Mi ricollego e vengo messo in una lobby in attesa che la partita in corso finisca. Finche' l'altra partita e' ancora in corso non ne posso iniziare una nuova e tutti i giocatori che si connettono in questo momento vengono aggiunti alla lobby di attesa.
+**1]** Con il server attivo, lancio il client sulla mia macchina e si apre una finestra con un'interfaccia di login. Inserisco un nome utente ed entro nella lobby, dove trovo una lista dei giocatori connessi aggiornata in tempo reale e due pulsanti, uno per scollegarmi e uno per iniziare il round. Premo il pulsante per iniziare il round e la finestra cambia, mostrando un timer che cala ogni secondo (tempo del round) e tre opzioni. `{1}` Scelgo una delle tre e mi disconnette dal gioco. Mi ricollego e vengo messo in una lobby in attesa che la partita in corso finisca. Finche' l'altra partita e' ancora in corso non ne posso iniziare una nuova e tutti i giocatori che si connettono in questo momento vengono aggiunti alla lobby di attesa.
 Quando la partita precedente finisce, sono gia' in lobby e posso giocare di nuovo.
 
-**2]** (come prima fino a {1}) Scelgo una delle due opzioni "buone". L'interfaccia cambia e mi viene mostrata una domanda con 4 possibili risposte. Scelgo la mia risposta e mi viene aggiunto un punto se era corretta oppure decurtato un punto se era sbagliata. Si susseguono tante domande fino allo scadere del tempo. 
+**2]** (come prima fino a `{1}`) Scelgo una delle due opzioni "buone". L'interfaccia cambia e mi viene mostrata una domanda con 4 possibili risposte. Scelgo la mia risposta e mi viene aggiunto un punto se era corretta oppure decurtato un punto se era sbagliata. Si susseguono tante domande fino allo scadere del tempo. 
 Terminato il tempo a disposizione l'interfaccia cambia e si presenta una classifica dei giocatori in base al punteggio raggiunto. Vince chi ha piu' punti. Sotto la classifica ci sono due pulsanti: uno per disconnettersi e uno per tornare in lobby.
 
 **3]** Sono admin del gioco, lancio il server e mi appare una finestra con due pulsanti: uno per attivare il server e uno per fermarlo. Sotto i due pulsanti vedo un campo di testo contenente l'IP e la porta del server. Sotto l'IP e la porta vedo un ulteriore campo di testo con un log di quello che succede.
