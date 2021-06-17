@@ -23,6 +23,7 @@ termine del tempo ha acquisito più punti è il vincitore.
 - [Slide laboratorio #12](https://virtuale.unibo.it/pluginfile.php/839201/mod_resource/content/1/Programmazione%20di%20Reti%20%2312.pdf)
 - [Codide laboratorio #12](https://virtuale.unibo.it/mod/resource/view.php?id=582946)
 - [Esempio vecchia traccia #3](https://virtuale.unibo.it/pluginfile.php/827640/mod_folder/content/0/Soluzione%20Traccia%203.zip?forcedownload=1)
+- [UML diagram](https://drive.google.com/file/d/1XpP_2LWAPwCf7kCqTwBBZNEAGpzvGudY/view?usp=sharing)
 
 
 ## Requirements:
