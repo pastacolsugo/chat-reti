@@ -1,3 +1,11 @@
+# ugo
+network_rock_paper_scissors_game-master
+
+
+# GitHub's python .gitignore template
+# |||||||||||||||||||||||||||||||||||
+# vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
