@@ -4,12 +4,12 @@ from time import sleep
 class Timer:
     __isTimerOver = False
 
-    def __init__(self, __duration: int):
-        self.__duration = __duration
+    def __init__(self, duration: int):
+        self.__duration = duration
 
     def start_timer(self):
-        while self.duration > 0 and not bool(self.__isTimerOver):
-            # print(self.duration)
+        while self.__duration > 0 and not bool(self.__isTimerOver):
+            # print(self.__duration)
             self.__duration = self.__duration - 1
             sleep(1)
         if self.__duration == 0:
