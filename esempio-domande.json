@@ -1,0 +1,35 @@
+{
+	"options" : [
+		{
+			"option_question" : "In quante fette va tagliata la pizza?",
+			"options" : [
+				"4",
+				"6",
+				"La mangio intera"
+			],
+			"correct_option" : "6"
+		}	
+	],
+	"questions" : [
+		{
+			"question" : "quanti pesa il Sole in hamburger?",
+			"answers" : [
+					"123456",
+					"111111",
+					"999333",
+					"1"
+			],
+			"correct_answer" : "2",
+		},
+		{
+			"question" : "Quante Alici ci sono in questo progetto?",
+			"answers" : [
+					"2",
+					"Troppe",
+					"Troppe poche",
+					"All of the above"
+			],
+			"correct_answer" : "3",
+		},
+	]
+}
