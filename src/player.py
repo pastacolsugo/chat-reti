@@ -2,7 +2,7 @@ import string
 
 
 class Player:
-    def __init__(self, ip: string, socket, player_name: string, score: int):
+    def __init__(self, ip: string, socket, player_name: string, score: int = 0):
         self._ip = ip
         self._socket = socket
         self._player_name = player_name
