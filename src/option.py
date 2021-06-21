@@ -1,4 +1,3 @@
-
 class Option:
     def __init__(self, option: str, isCorrect: bool):
         self._option = option
@@ -9,10 +8,4 @@ class Option:
 
     def is_correct(self):
         return self._isCorrect
-
-
-#PROVA
-# option = Option("aliceisbeautiful", True)
-# print(option.get_option())
-# print(option.is_correct())
 
