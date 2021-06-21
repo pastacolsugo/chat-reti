@@ -13,6 +13,8 @@ class Timer:
         if self._time_left == 0:
             self._is_timer_over = True
 
+    # TODO: @alicemastrilli evaluate the need for the stop method.
+    # Can it be called? Do we need it?
     def stop(self):
         self._is_timer_over = True
 
