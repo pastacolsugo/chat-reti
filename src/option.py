@@ -2,14 +2,14 @@ import string
 
 class Option:
     def __init__(self, option: string, isCorrect: bool):
-        self.__option = option
-        self.__isCorrect = isCorrect
+        self._option = option
+        self._isCorrect = isCorrect
 
-    def getOption(self):
-        return self.__option
+    def get_option(self):
+        return self._option
 
-    def isCorrect(self):
-        return self.__isCorrect
+    def is_correct(self):
+        return self._isCorrect
 
 
 #PROVA
