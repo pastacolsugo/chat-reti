@@ -1,19 +1,16 @@
-import string
-
 class Question:
-
-    def __init__(self, question: string, correctAnswer: int, answers):
-        self.__question = question
-        self.__correctAnswer = correctAnswer
-        self.__answers = answers
+    def __init__(self, question: str, correctAnswer: int, answers):
+        self._question = question
+        self._correctAnswer = correctAnswer
+        self._answers = answers
     
     def getQuestion(self):
-        return self.__question
+        return self._question
     
     def getAnswers(self):
-        return self.__answers
+        return self._answers
 
     def getCorrectAnswer(self):
-        return self.__correctAnswer
+        return self._correctAnswer
 
         
