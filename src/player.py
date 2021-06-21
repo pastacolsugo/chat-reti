@@ -14,7 +14,7 @@ class Player:
     def get_ip(self):
         return self._ip
     
-    def get_player_name(self):
+    def get_name(self):
         return self._player_name
 
     def get_score(self):
