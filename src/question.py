@@ -12,5 +12,4 @@ class Question:
 
     def get_correct_answer(self):
         return self._correct_answer
-
-        
+ 
