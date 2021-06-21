@@ -4,6 +4,7 @@ class Timer:
     def __init__(self, duration: int):
         self._duration = duration
         self._is_timer_over = False
+        self._time_left = self._duration
 
     def start(self):
         self._time_left = self._duration
