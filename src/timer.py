@@ -1,31 +1,23 @@
 from time import sleep
 
-
 class Timer:
-    __isTimerOver = False
-
     def __init__(self, duration: int):
-        self.__duration = duration
+        self._duration = duration
+        self._is_timer_over = False
 
-    def start_timer(self):
-        while self.__duration > 0 and not bool(self.__isTimerOver):
-            # print(self.__duration)
-            self.__duration = self.__duration - 1
+    def start(self):
+        self._time_left = self._duration
+        while self._time_left > 0 and not bool(self._is_timer_over):
             sleep(1)
-        if self.__duration == 0:
-            self.__isTimerOver = True
+            self._time_left -= 1
+        if self._time_left == 0:
+            self._is_timer_over = True
 
-    def stop_timer(self):
-        self.__isTimerOver = True
+    def stop(self):
+        self._is_timer_over = True
 
     def get_remaining_time(self):
-        return self.__duration
+        return self._time_left
 
     def is_timer_over(self):
-        return self.__isTimerOver
-
-# PROVA
-# timer = Timer(5)
-# print(Timer.is_timer_over(timer))
-# Timer.start_timer(timer)
-# print(Timer.is_timer_over(timer))
+        return self._is_timer_over
