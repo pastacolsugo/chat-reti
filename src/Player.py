@@ -5,7 +5,7 @@ class Player:
     def __init__(self, ip: string, socket, player_name: string, score: int):
         self._ip = ip
         self._socket = socket
-        self._playerName = player_name
+        self._player_name = player_name
         self._score = score
 
     def get_socket(self):
