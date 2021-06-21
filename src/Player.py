@@ -3,10 +3,16 @@ import string
 
 class Player:
     def __init__(self, ip: string, socket, player_name: string, score: int):
-        self.__ip = ip
-        self.__socket = socket
-        self.__playerName = player_name
-        self.__score = score
+        self._ip = ip
+        self._socket = socket
+        self._playerName = player_name
+        self._score = score
 
     def get_socket(self):
-        return self.__socket
+        return self._socket
+    
+    def get_ip(self):
+        return self._ip
+    
+    def get_player_name(self):
+        return self._player_name
