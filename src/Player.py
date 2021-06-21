@@ -16,3 +16,6 @@ class Player:
     
     def get_player_name(self):
         return self._player_name
+
+    def get_score(self):
+        return self._score
