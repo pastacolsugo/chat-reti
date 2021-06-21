@@ -1,7 +1,6 @@
-import string
 
 class Option:
-    def __init__(self, option: string, isCorrect: bool):
+    def __init__(self, option: str, isCorrect: bool):
         self._option = option
         self._isCorrect = isCorrect
 
@@ -13,7 +12,7 @@ class Option:
 
 
 #PROVA
-#option = Option("aliceisbeautiful", True)
-#print(Option.getOption(option))
-#print(Option.isCorrect(option))
+# option = Option("aliceisbeautiful", True)
+# print(option.get_option())
+# print(option.is_correct())
 
