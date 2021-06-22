@@ -29,6 +29,12 @@ class TestPlayer(unittest.TestCase):
         player_set_score.remove_point()
         self.assertTrue(player_set_score.get_score() == 1002)
 
+        p = Player('ip', socket_mock, 'antonio', score=42)
+        self.assertTrue(p.get_score() == 42)
+        p.zero_score()
+        self.assertTrue(p.get_score() == 0)
+        
+
 
 if __name__ == '__main__':
     unittest.main()

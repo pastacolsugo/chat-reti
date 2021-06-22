@@ -1,14 +1,13 @@
 {
-	"timer_duration": 30,
+	"winning_score": 5,
 	"options" : [
 		{
 			"option_question" : "In quante fette va tagliata la pizza?",
-			"options" : [
-				"4",
-				"6",
-				"La mangio intera"
+			"option_answers" : [
+				{"option": "4", "correct": "True"}
+				{"option": "6", "correct": "True"}
+				{"option": "La mangio intera", "correct": "False"}
 			],
-			"correct_option" : "6"
 		}	
 	],
 	"questions" : [
