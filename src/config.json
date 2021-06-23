@@ -1,0 +1,43 @@
+{
+	"winning_score": 5,
+	"options" : [
+		{
+			"option_question" : "In quante fette va tagliata la pizza?",
+			"option_answers" : [
+				{"option": "4", "correct": "True"},
+				{"option": "6", "correct": "True"},
+				{"option": "La mangio intera", "correct": "False"}
+			]
+		}	
+	],
+	"questions" : [
+		{
+			"question" : "quanti pesa il Sole in hamburger?",
+			"answers" : [
+					"123456",
+					"111111",
+					"999333",
+					"1"
+			],
+			"correct_answer" : "2"
+		},
+		{
+			"question" : "Quante Alici ci sono in questo progetto?",
+			"answers" : [
+					"2",
+					"Troppe",
+					"Troppe poche",
+					"All of the above"
+			],
+			"correct_answer" : "3"
+		}
+	],
+	"roles" : [
+		"Software Engineer",
+		"Site Reliability Engineer",
+		"Network Engineer",
+		"UX Designer",
+		"Project Manager",
+		"Tech Lead"
+	]
+}
