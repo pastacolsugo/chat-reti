@@ -19,7 +19,7 @@
 					"999333",
 					"1"
 			],
-			"correct_answer" : "2"
+			"correct_answer" : 2
 		},
 		{
 			"question" : "Quante Alici ci sono in questo progetto?",
@@ -29,7 +29,7 @@
 					"Troppe poche",
 					"All of the above"
 			],
-			"correct_answer" : "3"
+			"correct_answer" : 3
 		}
 	],
 	"roles" : [
