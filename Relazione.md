@@ -15,9 +15,14 @@ Il giocatore che arriva per primo ai 5 punti decreta la fine del gioco e viene m
  In aggiunta a questi, è presente un file .json `config.json` in cui sono salvate le domande, le risposte e alcuni parametri di configurazione.
  Questo file servirà per la generazione di domande da porre all'utente, scelte casualmente tra quelle disponibili.
  
+ ## Strutture dati
+ Le principali strutture dati utilizzate sono dizionari (struttura dati che memorizza coppie chiavi-valori) e le liste. 
+ Le liste sono state utilizzate per l'implementazione dell'interfaccia grafica.
+ La scelta del dizionario è stata basata per la serializzazione con .json molto comoda che ha semplificato la comunicazione. 
+ 
  ## Server
- Come si può osservare nel file `server.py` tra i parametri più rilevanti da considerare ci sono gli indirizzi IP e la porta del server (utili quando verrà stabilita la connessione).
-Inoltre `client_sockets` è la lista dei socket dei client, che aumenta ogni volta che un client si collega, `server_socket` è la porta su cui il server si mette in ascolto e viene attivata in `open_socket()`, chiamata una volta avviato il server. 
+Come si può osservare nel file `server.py` tra i parametri più rilevanti da considerare ci sono gli indirizzi IP e la porta del server (utili quando verrà stabilita la connessione).
+Inoltre `client_sockets` è un dizionario dei socket dei client, che aumenta ogni volta che un client si collega, `server_socket` è la porta su cui il server si mette in ascolto e viene attivata in `open_socket()`, chiamata una volta avviato il server. 
  ```python
 def open_socket():
     global server_socket
@@ -116,7 +121,7 @@ def open_socket():
 
 Come ultimo passaggio viene chiusa la connessione.
 
-# Client
+## Client
 Una volta avviato il client viene subito richiesto il login e l'avvio della connessione. Queste funzionalità vengono gestite tramite le funzioni `connect()` e `connect_to_server()`. In quest'ultima viene creato un nuovo thread su cui viene stabilita la connessione con il server (dal momento che il thread principale sta venendo utilizzato per l'interfaccia grafica.
 Come in `server`, la funzione `handle_server_communication()` gestisce la comunicazione tra server e client.
 Dopo aver inviato al server il proprio username di login, riceve il ruolo e attende che un altro giocatore avvii il gioco. 
@@ -126,8 +131,10 @@ TODO: mettere il codice relativo
 
 Ciascun client riceverà i messaggi dal server (questions o ranking) e una volta ricevuta la classifica viene chiusa la connessione con il server.
 
-
- 
+## Thread attivi
+Come precedentemente spiegato, server e client lavorano su più thread: 
+- il server ha un proprio thread sempre attivo dove rimane in attesa di nuove comunicazioni e tanti altri quanti sono i clients collegati
+- il client ha un thread che utilizza per l'interfaccia grafica e tanti altri quanti sono i players
  
  
  
