@@ -190,12 +190,7 @@ def handle_server_communication():
 
     print('waiting for option')
     # Receive option
-    try:
-        msg = client_socket.recv(4096).decode()
-    except Exception as e:
-        print("oops")
-        print(e)
-        return
+    msg = client_socket.recv(4096).decode()
 
     if not msg:
         # TODO: exit gracefully
