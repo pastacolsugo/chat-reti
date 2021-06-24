@@ -60,7 +60,11 @@ def handle_player_connection(id):
     player_socket = client_sockets[id]['socket']
 
     # read name
-    player_name = player_socket.recv(4096).decode() 
+    msg = player_socket.recv(4096).decode() 
+    if not msg:
+        # TODO: exit gracefully
+        return
+    player_name = json.loads()['player_name']
     if not player_name:
         print ('no player name')
         return
