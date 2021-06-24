@@ -59,23 +59,25 @@ def handle_player_connection(id):
     score = 0
     player_socket = client_sockets[id]['socket']
 
-    # read name
+    # Read name
+    # {'player_name' : name}
     msg = player_socket.recv(4096).decode() 
     if not msg:
         # TODO: exit gracefully
         return
-    player_name = json.loads()['player_name']
+    player_name = json.loads(msg)['player_name']
     if not player_name:
         print ('no player name')
         return
     print(f'Player connected: {player_name}')
 
-    # assign role
+    # Assign role
     player_role = random.choice(GAME_CONFIG['roles'])
     msg = {"role" : player_role}
     player_socket.send(json.dumps(msg).encode())
 
-    # wait for game to start
+    # Wait for game to start
+    # TODO: change to json
     while not has_game_started:
         try:
             start_msg = player_socket.recv(4096, socket.MSG_DONTWAIT).decode()
@@ -89,13 +91,13 @@ def handle_player_connection(id):
 
     print('Game started!')
 
-    # serve option
+    # Serve option
     option = random.choice(GAME_CONFIG['options'])
     player_socket.send(json.dumps(option).encode())
     
     print('Option served, waiting for player choice.')
 
-    # wait for user choice
+    # Wait for user choice
     # {'choice' : 'scelta'}
     msg = player_socket.recv(4096).decode()
     if not msg:
@@ -106,7 +108,7 @@ def handle_player_connection(id):
 
     print('Choice received. Evaluating...')
 
-    # evaluate user choice
+    # Evaluate user choice
     for choice in option['option_answers']:
         if choice['option'] == player_choice and choice['correct']:
             break
@@ -114,14 +116,13 @@ def handle_player_connection(id):
         # TODO: handle exit
         return
     
-    
     # while (number of questions < X):
     while score < GAME_CONFIG['winning_score'] and not is_game_over:
-        # serve question
+        # Serve question
         question = random.choice(GAME_CONFIG['questions'])
         player_socket.send(json.dumps(question).encode())
 
-        # wait for answer
+        # Wait for answer
         msg = player_socket.recv(4096).decode()
         if not msg:
             return
@@ -133,37 +134,36 @@ def handle_player_connection(id):
         print("player_answer")
         print(player_answer)
         
-        # check answer and assign points
+        # Check answer and assign points
         if player_answer == question['correct_answer']:
             score += 1
         else:
             score -= 1 
         
-        # send new score to client
+        # Send new score to client
         score_update = {'score' : score}
         player_socket.send(json.dumps(score_update).encode())
 
-    # check if I won
+    # Check if I won
     if not is_game_over and score >= GAME_CONFIG['winning_score']:
         is_game_over = True
 
-    # add my score to the ranking
+    # Add my score to the ranking
     ranking[player_name] = score
     
-    # wait for all other threads to add their names
+    # Wait for all other threads to add their names
     while len(ranking) < len(client_sockets):
-        sleep(0.1)
-    
+        sleep(0.1) 
 
-    # generate sorted ranking
+    # Generate sorted ranking
     sorted_ranking = dict(sorted(ranking.items(), reverse=True, key=lambda item: item[1]))
 
-    # serialize ranking
+    # Serialize ranking
     serialized_ranking = ""
     for key in sorted_ranking:
-        serialized_ranking += f'{key}: {sorted_ranking[key]}'
+        serialized_ranking += f'{key}: {sorted_ranking[key]}\n'
     
-    # send ranking
+    # Send ranking
     player_socket.send(serialized_ranking.encode())
 
     # close connection

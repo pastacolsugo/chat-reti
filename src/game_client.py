@@ -1,7 +1,6 @@
 # Laboratorio di Programmazione di Reti - Universit di Bologna - Campus di Cesena
 # Giovanni Pau - Andrea Piroddi
 
-from src.server import open_socket
 import tkinter as tk
 import json
 from tkinter import PhotoImage
@@ -19,8 +18,7 @@ game_started = False
 client_socket = None
 HOST_ADDR = '127.0.0.1'
 HOST_PORT = 8000
-
-# 
+ 
 window_main = tk.Tk()
 window_main.title("Game Client")
 
@@ -57,11 +55,11 @@ for i in range(4):
     answer_buttons.append(tk.Button(answer_buttons_frame, text=f'answer_button_{i}'))
     answer_buttons[i].pack(side = tk.LEFT)
 
-choice_buttons_frame = tk.frame(window_main)
+choice_buttons_frame = tk.Frame(window_main)
 choice_buttons = []
 for i in range(3):
-    choice_buttons.append(tk.button(choice_buttons_frame, text=f'choice_button_{i}'))
-    choice_buttons[i].pack(side = tk.left)
+    choice_buttons.append(tk.Button(choice_buttons_frame, text=f'choice_button_{i}'))
+    choice_buttons[i].pack(side = tk.LEFT)
 
 start_button_frame = tk.Frame(window_main)
 start_button = tk.Button(start_button_frame, text="Start game!", command = lambda : send_start_game(), state=tk.DISABLED)
@@ -105,6 +103,9 @@ def hide_choice_buttons():
 
 def show_choice_buttons():
     choice_buttons_frame.pack(side = tk.TOP)
+
+def update_role(role):
+    role_label.config(text = f'Role : {role}')
 
 def connect():
     global player_name
@@ -159,6 +160,7 @@ def handle_server_communication():
         return
 
     player_role = json.loads(msg)['player_role']
+    update_role(player_role)
     print(player_role)
     
     # Enable game start button
@@ -168,7 +170,7 @@ def handle_server_communication():
     # or the server saying the game has started
     while not game_started:
         try:
-            msg = client_socket.recv(1024).decode()
+            msg = client_socket.recv(1024, socket.MSG_DONTWAIT).decode()
             if not msg:
                 # TODO: exit gracefully
                 return
@@ -177,12 +179,21 @@ def handle_server_communication():
         except Exception as e:
             pass
 
+    print('waiting for option')
     # Receive option
-    msg = client_socket.recv(4096).decode()
+    try:
+        msg = client_socket.recv(8192).decode()
+    except Exception as e:
+        print("oops")
+        print(e)
+        return
+
+    print(msg)
     if not msg:
         # TODO: exit gracefully
         return
     option = json.loads(msg)
+    print(option)
 
     # Display option text and buttons
     question_label.config(text = option['option_question'])
