@@ -9,8 +9,6 @@ import socket
 from time import sleep
 import threading
 
-from server import start_server
-
 # FINESTRA DI GIOCO PRINCIPALE
 window_main = tk.Tk()
 window_main.title("Game Client")
