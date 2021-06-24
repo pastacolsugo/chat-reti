@@ -55,56 +55,79 @@ def get_next_connection_id():
     return id
 
 def handle_player_connection(id):
-    global is_game_over, GAME_CONFIG, ranking
+    global is_game_over, GAME_CONFIG, ranking, has_game_started, cancer_flag
     score = 0
     player_socket = client_sockets[id]['socket']
 
     # read name
-    player_name = player_socket.recv(4096)
+    player_name = player_socket.recv(4096).decode() 
     if not player_name:
         print ('no player name')
         return
+    print(f'Player connected: {player_name}')
 
     # assign role
     player_role = random.choice(GAME_CONFIG['roles'])
-    player_socket.send(f'role:{player_role}'.encode())
+    msg = {"role" : player_role}
+    player_socket.send(json.dumps(msg).encode())
 
     # wait for game to start
     while not has_game_started:
+        try:
+            start_msg = player_socket.recv(4096, socket.MSG_DONTWAIT).decode()
+            if start_msg and start_msg == "start_game":
+                has_game_started = True
+            else:
+                return
+        except Exception as e:
+            pass
         sleep(0.1)
+
+    print('Game started!')
 
     # serve option
     option = random.choice(GAME_CONFIG['options'])
-    player_socket.send(json.dumps(option))
+    player_socket.send(json.dumps(option).encode())
     
+    print('Option served, waiting for player choice.')
+
     # wait for user choice
-    # {'player_choice' : 'scelta'}
-    msg = player_socket.recv(4096)
+    # {'choice' : 'scelta'}
+    msg = player_socket.recv(4096).decode()
     if not msg:
-        return
-    player_choice = json.loads(msg)
+        return # TODO: handle exit
+    player_choice = json.loads(msg)['choice']
+
+    print(player_choice)
+
+    print('Choice received. Evaluating...')
 
     # evaluate user choice
     for choice in option['option_answers']:
-        if choice['option'] == player_choice and choice['correct'] == True:
+        if choice['option'] == player_choice and choice['correct']:
             break
     else:
+        # TODO: handle exit
         return
+    
     
     # while (number of questions < X):
     while score < GAME_CONFIG['winning_score'] and not is_game_over:
         # serve question
         question = random.choice(GAME_CONFIG['questions'])
-        player_socket.send(json.dumps(question))
+        player_socket.send(json.dumps(question).encode())
 
         # wait for answer
-        msg = player_socket.recv(4096)
+        msg = player_socket.recv(4096).decode()
         if not msg:
             return
 
-        # slice answer out of message
-        # {'answer' : 3}
+        # expected object
+        # {'answer' : '3'}
         player_answer = json.loads(msg)['answer']
+
+        print("player_answer")
+        print(player_answer)
         
         # check answer and assign points
         if player_answer == question['correct_answer']:
@@ -114,7 +137,7 @@ def handle_player_connection(id):
         
         # send new score to client
         score_update = {'score' : score}
-        player_socket.send(json.dumps(score_update))
+        player_socket.send(json.dumps(score_update).encode())
 
     # check if I won
     if not is_game_over and score >= GAME_CONFIG['winning_score']:
@@ -137,7 +160,7 @@ def handle_player_connection(id):
         serialized_ranking += f'{key}: {sorted_ranking[key]}'
     
     # send ranking
-    player_socket.send(serialized_ranking)
+    player_socket.send(serialized_ranking.encode())
 
     # close connection
     player_socket.close()
@@ -153,6 +176,7 @@ def start_server():
     
     while not cancer_flag:
         sleep(0.1)
+        # TODO: close once done
 
 
 start_server()
