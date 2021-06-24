@@ -1,4 +1,13 @@
+###### Programmazione di Reti - Università di Bologna - A.A. 2020-2021
 
+###### Baroncini Ugo ugo.baroncini@studio.unibo.it 0000842092
+
+###### Conti Alice alice.conti7@studio.unibo.it 0000925054
+
+###### Mastrilli Alice alice.mastrilli@studio.unibo.it 0000925517
+
+
+# Traccia 3 - Chat Game
 
 # Introduzione
 Il progetto è stato realizzato utilizzando Python 3.9.5 e i socket TCP-IP per creare le connesioni client-server.
