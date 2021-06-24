@@ -16,6 +16,7 @@ client_sockets = {}
 next_connection_id = 0
 has_game_started = False
 is_game_over = False
+is_ranking_ready = False
 ranking = {}
 
 cancer_flag = False
@@ -56,6 +57,7 @@ def get_next_connection_id():
 
 def handle_player_connection(id):
     global is_game_over, GAME_CONFIG, ranking, has_game_started, cancer_flag
+    global is_ranking_ready
     score = 0
     player_socket = client_sockets[id]['socket']
 
@@ -63,7 +65,7 @@ def handle_player_connection(id):
     # {'player_name' : name}
     msg = player_socket.recv(4096).decode() 
     if not msg:
-        # TODO: exit gracefully
+        print('> Lost connection.')
         return
     player_name = json.loads(msg)['player_name']
     if not player_name:
@@ -76,48 +78,53 @@ def handle_player_connection(id):
     msg = {"role" : player_role}
     player_socket.send(json.dumps(msg).encode())
 
+    received_start_game_message = False
     # Wait for game to start
-    # TODO: change to json
     while not has_game_started:
         try:
             msg = player_socket.recv(4096, socket.MSG_DONTWAIT).decode()
             if not msg:
-                # TODO: exit gracefully
+                print(f'{player_name}> Lost connection.')
                 return
             start_msg = json.loads(msg)
             if start_msg['start_game']:
                 has_game_started = True
+                received_start_game_message = True
             else:
                 return
         except Exception as e:
             pass
         sleep(0.1)
+    
+    if not received_start_game_message:
+        msg = {'game_started' : 'True'}
+        player_socket.send(json.dumps(msg).encode())
 
-    print('Game started!')
+    print(f'{player_name}Game started!')
 
     # Serve option
     option = random.choice(GAME_CONFIG['options'])
     player_socket.send(json.dumps(option).encode())
     
-    print('Option served, waiting for player choice.')
+    print(f'{player_name}> Option served, waiting for player choice.')
 
     # Wait for user choice
     # {'choice' : 'scelta'}
     msg = player_socket.recv(4096).decode()
     if not msg:
-        return # TODO: handle exit
+        print(f'{player_name}> Lost connection')
     player_choice = json.loads(msg)['choice']
 
     print(player_choice)
 
-    print('Choice received. Evaluating...')
+    print(f'{player_name}Choice received. Evaluating...')
 
     # Evaluate user choice
     for choice in option['option_answers']:
-        if choice['option'] == player_choice and choice['correct']:
+        if choice['option'] == player_choice and choice['correct'] == "True":
             break
     else:
-        # TODO: handle exit
+        close_connection(id)
         return
     
     # while (number of questions < X):
@@ -135,9 +142,6 @@ def handle_player_connection(id):
         # {'answer' : '3'}
         player_answer = json.loads(msg)['answer']
 
-        print("player_answer")
-        print(player_answer)
-        
         # Check answer and assign points
         if player_answer == question['correct_answer']:
             score += 1
@@ -147,6 +151,7 @@ def handle_player_connection(id):
         # Send new score to client
         score_update = {'score' : score}
         player_socket.send(json.dumps(score_update).encode())
+        sleep(0.5)
 
     # Check if I won
     if not is_game_over and score >= GAME_CONFIG['winning_score']:
@@ -154,10 +159,13 @@ def handle_player_connection(id):
 
     # Add my score to the ranking
     ranking[player_name] = score
+    print(f'Added {player_name} score -> {score} | len(ranking){len(ranking)}, len(clients){len(client_sockets)}')
     
+    if len(ranking) == len(client_sockets):
+        is_ranking_ready = True
     # Wait for all other threads to add their names
-    while len(ranking) < len(client_sockets):
-        sleep(0.1) 
+    while not is_ranking_ready:
+        sleep(0.1)
 
     # Generate sorted ranking
     sorted_ranking = dict(sorted(ranking.items(), reverse=True, key=lambda item: item[1]))
@@ -169,13 +177,13 @@ def handle_player_connection(id):
     msg = {'ranking': serialized_ranking}
 
     # Send ranking
-    player_socket.send(msg.encode())
+    player_socket.send(json.dumps(msg).encode())
+
+    # Remove client socket from data structure
+    client_sockets.pop(id)
 
     # close connection
     player_socket.close()
-
-    # exit
-    cancer_flag = True
 
 def start_server():
     print('Ingegneria e Scienze Informatiche - UniBo')
@@ -183,9 +191,18 @@ def start_server():
     print('A. Conti, A. Mastrilli, U. Baroncini')
     open_socket()
     
-    while not cancer_flag:
+    have_to_receive_first_connection = True
+    while len(client_sockets) > 0 or have_to_receive_first_connection:
+        if (len(client_sockets) > 0):
+            have_to_receive_first_connection = False
         sleep(0.1)
-        # TODO: close once done
+    
+    print('Everyone left! Bye!')
+
+
+def close_connection(id):
+    client_sockets[id]['socket'].close()
+    client_sockets.pop(id)
 
 
 start_server()

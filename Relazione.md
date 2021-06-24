@@ -1,4 +1,13 @@
+###### Programmazione di Reti - Università di Bologna - A.A. 2020-2021
 
+###### Baroncini Ugo ugo.baroncini@studio.unibo.it 0000842092
+
+###### Conti Alice alice.conti7@studio.unibo.it 0000925054
+
+###### Mastrilli Alice alice.mastrilli@studio.unibo.it 0000925517
+
+
+# Traccia 3 - Chat Game
 
 # Introduzione
 Il progetto è stato realizzato utilizzando il linguaggio Python creando una connessione client-server sfruttando il protocollo TCP-IP.
@@ -126,8 +135,6 @@ Una volta avviato il client viene subito richiesto il login e l'avvio della conn
 Come in `server`, la funzione `handle_server_communication()` gestisce la comunicazione tra server e client.
 Dopo aver inviato al server il proprio username di login, riceve il ruolo e attende che un altro giocatore avvii il gioco. 
 A questo punto riceverà la domanda preliminare che verrà mostrata a video insieme alle possibili risposte; una volta scelta verrà comunicata al server che, se corretta permette di continuare il gioco, altrimenti termina la connessione.
-
-TODO: mettere il codice relativo
 
 Ciascun client riceverà i messaggi dal server (questions o ranking) e una volta ricevuta la classifica viene chiusa la connessione con il server.
 
