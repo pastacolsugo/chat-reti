@@ -131,6 +131,9 @@ TODO: mettere il codice relativo
 
 Ciascun client riceverà i messaggi dal server (questions o ranking) e una volta ricevuta la classifica viene chiusa la connessione con il server.
 
+![alt text](https://github.com/pastacolsugo/chat-reti/blob/main/Diagram.png)
+
+
 ## Thread attivi
 Come precedentemente spiegato, server e client lavorano su più thread: 
 - il server ha un proprio thread sempre attivo dove rimane in attesa di nuove comunicazioni e tanti altri quanti sono i clients collegati
