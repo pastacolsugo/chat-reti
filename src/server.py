@@ -136,6 +136,7 @@ def handle_player_connection(id):
         # Wait for answer
         msg = player_socket.recv(4096).decode()
         if not msg:
+            print(f'{player_name}> Lost connection')
             return
 
         # expected object
