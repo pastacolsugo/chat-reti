@@ -80,8 +80,12 @@ def handle_player_connection(id):
     # TODO: change to json
     while not has_game_started:
         try:
-            start_msg = player_socket.recv(4096, socket.MSG_DONTWAIT).decode()
-            if start_msg and start_msg == "start_game":
+            msg = player_socket.recv(4096, socket.MSG_DONTWAIT).decode()
+            if not msg:
+                # TODO: exit gracefully
+                return
+            start_msg = json.loads(msg)
+            if start_msg['start_game']:
                 has_game_started = True
             else:
                 return
@@ -159,12 +163,13 @@ def handle_player_connection(id):
     sorted_ranking = dict(sorted(ranking.items(), reverse=True, key=lambda item: item[1]))
 
     # Serialize ranking
-    serialized_ranking = ""
+    serialized_ranking = ''
     for key in sorted_ranking:
         serialized_ranking += f'{key}: {sorted_ranking[key]}\n'
-    
+    msg = {'ranking': serialized_ranking}
+
     # Send ranking
-    player_socket.send(serialized_ranking.encode())
+    player_socket.send(msg.encode())
 
     # close connection
     player_socket.close()

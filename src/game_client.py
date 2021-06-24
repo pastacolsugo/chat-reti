@@ -12,12 +12,13 @@ import threading
 player_name = ""
 player_role = ""
 score = 0
-game_started = False
+is_game_started = False
+is_game_over = False
 
 # Socket client
 client_socket = None
 HOST_ADDR = '127.0.0.1'
-HOST_PORT = 8000
+HOST_PORT = 8080
  
 window_main = tk.Tk()
 window_main.title("Game Client")
@@ -35,8 +36,8 @@ score_and_role_frame = tk.Frame(window_main)
 score_and_role_frame.pack(side = tk.TOP)
 
 score_display_frame = tk.Frame(score_and_role_frame)
-point_label = tk.Label(score_display_frame, text = "Score: 0")
-point_label.pack(side = tk.RIGHT)
+score_label = tk.Label(score_display_frame, text = "Score: 0")
+score_label.pack(side = tk.RIGHT)
 score_display_frame.pack(side = tk.RIGHT)
 
 role_display_frame = tk.Frame(score_and_role_frame)
@@ -67,13 +68,13 @@ start_button.pack(side = tk.TOP)
 start_button_frame.pack(side = tk.BOTTOM)
 
 def send_start_game():
-    global game_started
+    global is_game_started
     msg = {
         'start_game' : True
     }
     client_socket.send(json.dumps(msg).encode())
     start_button.config(state=tk.DISABLED)
-    game_started = True
+    is_game_started = True
 
 def answer(ans_number):
     print(f'Answered {ans_number}')
@@ -83,6 +84,7 @@ def send_answer(ans_number: int):
         'answer' : ans_number
     }
     client_socket.send(json.dumps(msg).encode())
+    hide_answer_buttons()
 
 def send_choice(choice: str):
     msg = {
@@ -106,6 +108,13 @@ def show_choice_buttons():
 
 def update_role(role):
     role_label.config(text = f'Role : {role}')
+
+def update_question(question):
+    question_label.config(text = question)
+
+def update_score(score):
+    score_label.config(text = f'Score : {score}')
+    
 
 def connect():
     global player_name
@@ -140,7 +149,7 @@ def connect_to_server():
 
 
 def handle_server_communication():
-    global game_started
+    global is_game_started, is_game_over, score
 
     # Disable connection widgets
     connect_button.config(state=tk.DISABLED)
@@ -159,7 +168,7 @@ def handle_server_communication():
         # TODO: exit gracefully
         return
 
-    player_role = json.loads(msg)['player_role']
+    player_role = json.loads(msg)['role']
     update_role(player_role)
     print(player_role)
     
@@ -168,47 +177,69 @@ def handle_server_communication():
 
     # Wait for the player to press the start button
     # or the server saying the game has started
-    while not game_started:
+    while not is_game_started:
         try:
             msg = client_socket.recv(1024, socket.MSG_DONTWAIT).decode()
             if not msg:
                 # TODO: exit gracefully
                 return
             if json.loads(msg)['game_started']:
-                game_started = True
+                is_game_started = True
         except Exception as e:
             pass
 
     print('waiting for option')
     # Receive option
     try:
-        msg = client_socket.recv(8192).decode()
+        msg = client_socket.recv(4096).decode()
     except Exception as e:
         print("oops")
         print(e)
         return
 
-    print(msg)
     if not msg:
         # TODO: exit gracefully
         return
     option = json.loads(msg)
-    print(option)
 
     # Display option text and buttons
-    question_label.config(text = option['option_question'])
+    update_question(option['option_question'])
     for btn, opt in zip(choice_buttons, option['option_answers']):
         choice_text = opt['option']
         btn.config(text = choice_text, command = lambda choice=choice_text: send_choice(choice))
     show_choice_buttons()
     
-    # Wait either for the first question or the dropped connection (kicked)
-    msg = client_socket.recv(4096).decode()
-    if not msg:
-        # TODO: exit gracefully
-        return
-    
+    while not is_game_over:
+        # Wait either for the a question, the ranking or the dropped connection (kicked)
+        msg = client_socket.recv(4096).decode()
+        if not msg:
+            # TODO: exit gracefully
+            return
+        decoded_msg = json.loads(msg)
 
+        # Check if it is a question or ranking
+        if "question" in decoded_msg:
+            question = decoded_msg
+            # show question
+            update_question(question['question'])
+            for index, (btn, ans) in enumerate(zip(answer_buttons, question['answers'])):
+                btn.config(text = ans, command = lambda i=index: send_answer(i))
+            show_answer_buttons()
+
+            # get score update
+            msg = client_socket.recv(4096).decode()
+            if not msg:
+                # TODO: exit gracefully
+                return
+            score = json.loads(msg)['score']
+            update_score(score)
+        elif "ranking" in decoded_msg:
+            ranking = decoded_msg
+            update_question(ranking['ranking'])
+            is_game_over = True
+
+
+    
     client_socket.close()
 
 
