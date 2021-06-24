@@ -29,7 +29,7 @@
 					"Terra di nessuno",
 					"Il trattino tra Emilia e Romagna"
 			],
-			"correct_answer" : "2"
+			"correct_answer" : 2
 		},
 		{
 			"question" : "Sono meglio",
@@ -39,7 +39,7 @@
 					"I panzerotti",
 					"La pizza"
 			],
-			"correct_answer" : "1"
+			"correct_answer" : 1
 		},
 		{
 			"question" : "Qual è il corso più bello del secondo anno?",
@@ -49,7 +49,7 @@
 					"Programmazione a Oggetti",
 					"Basi di Dati"
 			],
-			"correct_answer" : "2"
+			"correct_answer" : 2
 		},
 		{
 			"question" : "Quanto merita questo progetto?",
@@ -59,7 +59,7 @@
 					"30L",
 					"18 per simpatia"
 			],
-			"correct_answer" : "3"
+			"correct_answer" : 3
 		},
 		{
 			"question" : "Meglio",
@@ -69,7 +69,7 @@
 					"Sushi",
 					"Piadina"
 			],
-			"correct_answer" : "4"
+			"correct_answer" : 4
 		},
 		{
 			"question" : "Chi ha fondato Apple?",
@@ -79,7 +79,7 @@
 					"Bill Gates",
 					"Steve Jobs"
 			],
-			"correct_answer" : "4"
+			"correct_answer" : 4
 		},
 		{
 			"question" : "è più facile",
@@ -89,7 +89,7 @@
 					"Il progetto di Database",
 					"Darsi all'ippica dei cavallucci marini"
 			],
-			"correct_answer" : "4"
+			"correct_answer" : 4
 		},
 		{
 			"question" : "Che sport pratica Federica Pellegrini?",
@@ -99,17 +99,17 @@
 					"Scherma",
 					"Pugilato"
 			],
-			"correct_answer" : "1"
+			"correct_answer" : 1
 		},
 		{
-			"question" : "Dove si trova New York",
+			"question" : "Dove si trova New York?",
 			"answers" : [
 					"Europa",
 					"Asia",
 					"America",
 					"Africa"
 			],
-			"correct_answer" : "3"
+			"correct_answer" : 3
 		},
 		{
 			"question" : "Quante Alici ci sono in questo progetto?",
@@ -119,7 +119,7 @@
 					"3",
 					"4"
 			],
-			"correct_answer" : "2"
+			"correct_answer" : 2
 		}
 	],
 	"roles" : [
