@@ -6,7 +6,8 @@ import random
 
 HOST_ADDR = '127.0.0.1'
 HOST_PORT = 8080
-# CONFIG_FILE_PATH = './config.json'
+
+# Set the correct path for your machine!
 CONFIG_FILE_PATH = '/Users/sugo/git/chat-reti/src/config.json'
 with open(CONFIG_FILE_PATH, 'r') as config_file:
     GAME_CONFIG = json.load(config_file)
